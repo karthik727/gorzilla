@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bt.gorzilla.main;
+package com.bt.gorzilla;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +15,6 @@ public class GorzillaMain {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GorzillaMain.class, args);
-
 	}
 
 }
