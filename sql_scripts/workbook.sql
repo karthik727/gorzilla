@@ -36,3 +36,9 @@ INSERT INTO USER_ROLE (USERID, ROLEID,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUP
  VALUES ( (select userid from user where username='admin'), (select ROLEID from ROLE where ROLENAME='user'),'admin',sysdate(),'admin',sysdate(),'admin');
 
  commit;
+ 
+ select * from user;
+ select * from USER_INFO;
+ select * from USER_ADDRESS;
+ select * from ROLE;
+ select * from USER_ROLE;
