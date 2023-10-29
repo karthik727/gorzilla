@@ -2,15 +2,13 @@ package com.bt.gorzilla.controller;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-import com.bt.gorzilla.entity.User;
+import com.bt.gorzilla.response.UserResponse;
 import com.bt.gorzilla.service.UserService;
 
 @SpringBootTest
@@ -26,7 +24,7 @@ public class UserTest {
 	public void testUserController() {
 		LOGGER.info("Inside testUserController");
 		UserController userController = new UserController();
-		ResponseEntity<List<User>> userRespone = userController.getUsers(null, null);
+		ResponseEntity<UserResponse> userRespone = userController.getUsers(null, null);
 		if (userRespone.getStatusCode().value() == 200) {
 			assertTrue(true);
 		} else {
@@ -38,8 +36,8 @@ public class UserTest {
 	public void testUserService() {
 		LOGGER.info("Inside testUserService");
 		UserService userService = new UserService();
-		List<User> userList = userService.getUserDetailsService(null, null);
-		if (null != userList && userList.isEmpty()) {
+		UserResponse userResponse = userService.getAllUsers(null, null);
+		if (null != userResponse && null != userResponse.getUserData() && userResponse.getUserData().isEmpty()) {
 			assertTrue(true);
 		} else {
 			assertTrue(false);

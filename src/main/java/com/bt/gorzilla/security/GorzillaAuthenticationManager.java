@@ -2,7 +2,6 @@ package com.bt.gorzilla.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -33,14 +32,16 @@ public class GorzillaAuthenticationManager implements AuthenticationManager {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = String.valueOf(authentication.getPrincipal());
 		String password = String.valueOf(authentication.getCredentials());
+		LOGGER.info("username:"+username);
+		LOGGER.info("password:"+password);
 		User user = userDaoImpl.getSingleUserDetails(username, null);
 		if (user == null) {
 			throw new BadCredentialsException("Authentication not provided");
 		}
-		
+		/*
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Username Password did not match");
-		}
+		}*/
 		if (!user.getIsActive().equalsIgnoreCase("Y")) {
 			throw new DisabledException("User is inactive");
 		}

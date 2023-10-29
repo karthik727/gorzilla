@@ -1,16 +1,13 @@
 package com.bt.gorzilla.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+public class User extends Audit {
 
-@Entity
-public class User extends Audit{
-
-	@Id
 	private Integer userId;
 	private String userName;
 	private String password;
 	private String isActive;
+	private UserInfo userInfo;
+	private UserAddress userAddress;
 
 	public Integer getUserId() {
 		return userId;
@@ -42,6 +39,22 @@ public class User extends Audit{
 
 	public void setIsActive(String isActive) {
 		this.isActive = isActive;
+	}
+
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public UserAddress getUserAddress() {
+		return userAddress;
+	}
+
+	public void setUserAddress(UserAddress userAddress) {
+		this.userAddress = userAddress;
 	}
 
 }
