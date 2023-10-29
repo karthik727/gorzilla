@@ -13,7 +13,7 @@ import com.bt.gorzilla.constant.GorzillaConstant;
 		+ GorzillaConstant.REQUEST_VERSION)
 public class SuccessController {
 
-	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.TEST , method = RequestMethod.GET)
+	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.TEST, method = RequestMethod.GET)
 	public ResponseEntity<SuccessBean> successTest() {
 		SuccessBean se = new SuccessBean();
 		se.setSuccessMessage("Test success, API invoked Successfully");
