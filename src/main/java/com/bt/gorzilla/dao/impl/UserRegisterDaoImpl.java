@@ -91,6 +91,7 @@ public class UserRegisterDaoImpl  implements UserRegisterDao{
 		} catch (SQLException e) {
 			LOGGER.error("Error occured while saving user data",e.getMessage());
 			e.printStackTrace();
+			throw new UserRegistrationException("Error while storing user data");
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
@@ -119,6 +120,7 @@ public class UserRegisterDaoImpl  implements UserRegisterDao{
 		} catch (SQLException e) {
 			LOGGER.error("Error occured while fetching user data",e.getMessage());
 			e.printStackTrace();
+			throw new UserRegistrationException("Error while fetching user data");
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {

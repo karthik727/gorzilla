@@ -2,7 +2,6 @@ package com.bt.gorzilla.bean;
 
 public class UserRegisterBean {
 
-	private Integer userId;
 	private String userName;
 	private String password;
 	private String isActive;
@@ -14,14 +13,6 @@ public class UserRegisterBean {
 	private String city;
 	private String pincode;
 	private String country;
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
 
 	public String getUserName() {
 		return userName;

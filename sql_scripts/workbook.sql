@@ -93,7 +93,7 @@ JOIN USER
 select * from user;
 select * from USER_INFO;
 select * from USER_ADDRESS;
-#delete from user where userid = 7;
+#delete from user where userid = 14;
 #delete from USER_ADDRESS where USERADDRESSID = 3;
 
 desc user;

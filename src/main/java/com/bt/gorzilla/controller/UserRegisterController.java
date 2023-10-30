@@ -19,9 +19,12 @@ import com.bt.gorzilla.constant.GorzillaConstant;
 import com.bt.gorzilla.constant.GorzillaErrorConstant;
 import com.bt.gorzilla.service.UserRegisterService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(GorzillaConstant.SLASH + GorzillaConstant.REQUEST_API + GorzillaConstant.SLASH
 		+ GorzillaConstant.REQUEST_VERSION)
+@Tag(name="1. User Registration")
 public class UserRegisterController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRegisterController.class);

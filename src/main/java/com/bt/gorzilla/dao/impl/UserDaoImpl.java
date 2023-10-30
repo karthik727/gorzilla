@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
+import com.bt.gorzilla.bean.UserInputBean;
 import com.bt.gorzilla.dao.UserDao;
 import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.entity.UserAddress;
@@ -25,13 +27,13 @@ import com.bt.gorzilla.entity.UserInfo;
 
 //Spring data jpa has vulnerabilities hence created daoimpl
 @Repository
-public class UserDaoImpl implements UserDao{
-	
+public class UserDaoImpl implements UserDao {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
 	@Autowired
 	private DataSource dataSource;
-	
+
 	@Override
 	public List<User> getUserDetails(PaginationBean paginationBean) {
 		LOGGER.info("Iside getUserDetails DaoImpl");
@@ -87,19 +89,19 @@ public class UserDaoImpl implements UserDao{
 				userAddress.setLastUpdatedBy(rs.getString(29));
 				userAddress.setLastUpdateDate(rs.getDate(30));
 				userAddress.setLastUpdatedLogin(rs.getString(31));
-				user.setUserAddress(userAddress);				
+				user.setUserAddress(userAddress);
 				userList.add(user);
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Error occured while fetching user data",e.getMessage());
+			LOGGER.error("Error occured while fetching user data", e.getMessage());
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement", e.getMessage());
 			}
 		}
 
@@ -138,14 +140,14 @@ public class UserDaoImpl implements UserDao{
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Error occured while fetching user data",e.getMessage());
+			LOGGER.error("Error occured while fetching user data", e.getMessage());
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement", e.getMessage());
 			}
 		}
 
@@ -153,39 +155,85 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean createUser(User user, PasswordEncoder passwordEncoder) {		
+	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder) throws UserRegistrationException {
 		LOGGER.info("Inside createUser DaoImpl");
 		PreparedStatement userPreparedStatement = null;
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss");  
+		java.util.Date javaDate = new java.util.Date();
+		java.sql.Date date = new java.sql.Date(javaDate.getTime());
 		try (Connection connection = dataSource.getConnection()) {
 			userPreparedStatement = connection.prepareStatement(
-				"INSERT INTO USER(USERNAME,PASSWORD,ISACTIVE,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUPDATEDDATE,LASTUPDATEDLOGIN) VALUES (?, ?, ?, ?,?, ?, ?, ?)");
-				userPreparedStatement.setString(1, user.getUserName());
-				LOGGER.info("passwordEncoder.encode(user.getPassword():"+passwordEncoder.encode(user.getPassword()));
-				userPreparedStatement.setString(2, passwordEncoder.encode(user.getPassword()));
-				userPreparedStatement.setString(3, user.getIsActive());
-				userPreparedStatement.setString(4, user.getCreatedBy());
-				userPreparedStatement.setString(5, sdf.format(new Date()));
-				userPreparedStatement.setString(6, user.getUserName());
-				userPreparedStatement.setString(7, sdf.format(new Date()));
-				userPreparedStatement.setString(8, user.getUserName());
+					"INSERT INTO USER(USERNAME,PASSWORD,ISACTIVE,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUPDATEDDATE,LASTUPDATEDLOGIN) VALUES (?, ?, ?, ?,?, ?, ?, ?)");
+			userPreparedStatement.setString(1, userInputBean.getUserName());
+			userPreparedStatement.setString(2, passwordEncoder.encode(userInputBean.getPassword()));
+			userPreparedStatement.setString(3, userInputBean.getIsActive());
+			userPreparedStatement.setString(4, userInputBean.getUserName());
+			userPreparedStatement.setDate(5, date);
+			userPreparedStatement.setString(6, userInputBean.getUserName());
+			userPreparedStatement.setDate(7, date);
+			userPreparedStatement.setString(8, userInputBean.getUserName());
 			int status = userPreparedStatement.executeUpdate();
-			if(status > 0) {
+			if (status > 0) {
 				return true;
 			}
-		} catch (SQLException e) {
-			LOGGER.error("Error occured while fetching user data",e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error("Error occured while inserting user data", e.getMessage());
 			e.printStackTrace();
+			throw new UserRegistrationException("Error while storing user data");
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement", e.getMessage());
 			}
 		}
-		return false;
+		return true;
+	}
+
+	@Override
+	public User getUserDetailsById(Integer userId, PaginationBean paginationBean) {
+		LOGGER.info("Inside getSingleUserDetails DaoImpl");
+		PreparedStatement userPreparedStatement = null;
+		User user = null;
+		try (Connection connection = dataSource.getConnection()) {
+			if (null != paginationBean) {
+				userPreparedStatement = connection.prepareStatement(
+						"SELECT USERID,USERNAME,PASSWORD,ISACTIVE,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUPDATEDDATE,LASTUPDATEDLOGIN FROM USER WHERE USERID = ? LIMIT ? OFFSET ?");
+				userPreparedStatement.setInt(1, userId);
+				userPreparedStatement.setInt(2, paginationBean.getNumberOfRows());
+				userPreparedStatement.setInt(3, paginationBean.getRowsToSkip());
+			} else {
+				userPreparedStatement = connection.prepareStatement(
+						"SELECT USERID,USERNAME,PASSWORD,ISACTIVE,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUPDATEDDATE,LASTUPDATEDLOGIN FROM USER WHERE USERID = ? ");
+				userPreparedStatement.setInt(1, userId);
+			}
+			ResultSet rs = userPreparedStatement.executeQuery();
+			while (rs.next()) {
+				user = new User();
+				user.setUserId(rs.getInt(1));
+				user.setUserName(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setIsActive(rs.getString(4));
+				user.setCreatedBy(rs.getString(5));
+				user.setCreatedDate(rs.getDate(6));
+				user.setLastUpdatedBy(rs.getString(7));
+				user.setLastUpdateDate(rs.getDate(8));
+				user.setLastUpdatedLogin(rs.getString(7));
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error("Error occured while fetching user data", e.getMessage());
+		} finally {
+			try {
+				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
+					userPreparedStatement.close();
+				}
+			} catch (SQLException e) {
+				LOGGER.error("Error occured while fetching user data closing prepared statement", e.getMessage());
+			}
+		}
+		return user;
 	}
 
 }

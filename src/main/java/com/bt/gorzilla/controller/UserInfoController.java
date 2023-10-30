@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,59 +14,55 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.FailureBean;
 import com.bt.gorzilla.bean.SuccessBean;
-import com.bt.gorzilla.bean.UserInputBean;
+import com.bt.gorzilla.bean.UserInfoRegisterBean;
 import com.bt.gorzilla.constant.GorzillaConstant;
 import com.bt.gorzilla.constant.GorzillaErrorConstant;
-import com.bt.gorzilla.entity.User;
-import com.bt.gorzilla.response.UserResponse;
-import com.bt.gorzilla.service.UserService;
+import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.response.UserInfoResponse;
+import com.bt.gorzilla.service.UserInfoService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping(GorzillaConstant.SLASH + GorzillaConstant.REQUEST_API + GorzillaConstant.SLASH
 		+ GorzillaConstant.REQUEST_VERSION)
-@Tag(name="2. User Details")
-public class UserController {
-
-	@Autowired
-	UserService userService;
+@Tag(name="3. User Info Details")
+public class UserInfoController {
 	
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	UserInfoService userInfoService;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoController.class);
 
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
-	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER, method = RequestMethod.GET)
-	public ResponseEntity<UserResponse> getUsers(Integer page, Integer size) {
-		LOGGER.info("Inside getUsers");
-		UserResponse userResponse = userService.getAllUsers(page, size);
-		return ResponseEntity.ok().body(userResponse);
+	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO, method = RequestMethod.GET)
+	public ResponseEntity<UserInfoResponse> getUsersInfo(Integer page, Integer size) {
+		LOGGER.info("Inside getUsersInfo");
+		UserInfoResponse userInfoResponse = userInfoService.getAllUsersInfo(page, size);
+		return ResponseEntity.ok().body(userInfoResponse);
 	}
 
-	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER + GorzillaConstant.SLASH
-			+ "{userName}", method = RequestMethod.GET)
-	public ResponseEntity<User> getOneUser(@PathVariable String userName) {
-		LOGGER.info("Inside getUsers");
-		User user = userService.getOneUser(userName);
-		return ResponseEntity.ok().body(user);
+	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO + GorzillaConstant.SLASH
+			+ "{userid}", method = RequestMethod.GET)
+	public ResponseEntity<UserInfo> getOneUserInfo(@PathVariable String userName) {
+		LOGGER.info("Inside getOneUserInfo");
+		UserInfo userInfo = userInfoService.getOneUserInfo(userName);
+		return ResponseEntity.ok().body(userInfo);
 	}
 	
-	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER, method = RequestMethod.POST)
-	public ResponseEntity<Object> createUser(@RequestBody UserInputBean userInputBean) {
-		LOGGER.info("Inside createUser");
+	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO, method = RequestMethod.POST)
+	public ResponseEntity<Object> createUserInfo(@RequestBody UserInfoRegisterBean userInfoRegisterBean) {
+		LOGGER.info("Inside createUserInfo");
 		try {
-			userService.createUser(userInputBean, passwordEncoder);
+			userInfoService.createUserInfo(userInfoRegisterBean);
 			SuccessBean se = new SuccessBean();
-			se.setSuccessMessage("User created successfully");
+			se.setSuccessMessage("UserInfo created successfully");
 			se.setSuccessCode("200");
 			return ResponseEntity.ok().body(se);
 		} catch (UserRegistrationException e) {
 			LOGGER.error("Error:" + e.getMessage());
 			FailureBean fe = new FailureBean();
 			fe.setErrorCode("400");
-			fe.setErrorMessage(GorzillaErrorConstant.GE_0002);
+			fe.setErrorMessage(GorzillaErrorConstant.GE_0004);
 			return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(fe);
 		} catch (Exception e) {
 			LOGGER.error("Error:" + e.getMessage());
@@ -77,5 +72,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(fe);
 		}
 	}
+
 
 }
