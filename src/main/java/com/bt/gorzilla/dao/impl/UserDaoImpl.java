@@ -92,14 +92,14 @@ public class UserDaoImpl implements UserDao{
 			}
 
 		} catch (SQLException e) {
-			LOGGER.info("Error occured while fetching user data",e.getMessage());
+			LOGGER.error("Error occured while fetching user data",e.getMessage());
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.info("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
 			}
 		}
 
@@ -138,14 +138,14 @@ public class UserDaoImpl implements UserDao{
 			}
 
 		} catch (SQLException e) {
-			LOGGER.info("Error occured while fetching user data",e.getMessage());
+			LOGGER.error("Error occured while fetching user data",e.getMessage());
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.info("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
 			}
 		}
 
@@ -154,13 +154,14 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public boolean createUser(User user, PasswordEncoder passwordEncoder) {		
-		LOGGER.info("Inside getSingleUserDetails DaoImpl");
+		LOGGER.info("Inside createUser DaoImpl");
 		PreparedStatement userPreparedStatement = null;
 	    SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss");  
 		try (Connection connection = dataSource.getConnection()) {
 			userPreparedStatement = connection.prepareStatement(
 				"INSERT INTO USER(USERNAME,PASSWORD,ISACTIVE,CREATEDBY,CREATEDDATE,LASTUPDATEDBY,LASTUPDATEDDATE,LASTUPDATEDLOGIN) VALUES (?, ?, ?, ?,?, ?, ?, ?)");
 				userPreparedStatement.setString(1, user.getUserName());
+				LOGGER.info("passwordEncoder.encode(user.getPassword():"+passwordEncoder.encode(user.getPassword()));
 				userPreparedStatement.setString(2, passwordEncoder.encode(user.getPassword()));
 				userPreparedStatement.setString(3, user.getIsActive());
 				userPreparedStatement.setString(4, user.getCreatedBy());
@@ -173,14 +174,15 @@ public class UserDaoImpl implements UserDao{
 				return true;
 			}
 		} catch (SQLException e) {
-			LOGGER.info("Error occured while fetching user data",e.getMessage());
+			LOGGER.error("Error occured while fetching user data",e.getMessage());
+			e.printStackTrace();
 		} finally {
 			try {
 				if (null != userPreparedStatement && !userPreparedStatement.isClosed()) {
 					userPreparedStatement.close();
 				}
 			} catch (SQLException e) {
-				LOGGER.info("Error occured while fetching user data closing prepared statement",e.getMessage());
+				LOGGER.error("Error occured while fetching user data closing prepared statement",e.getMessage());
 			}
 		}
 		return false;

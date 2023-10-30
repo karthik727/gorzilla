@@ -38,10 +38,10 @@ public class GorzillaAuthenticationManager implements AuthenticationManager {
 		if (user == null) {
 			throw new BadCredentialsException("Authentication not provided");
 		}
-		/*
+		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Username Password did not match");
-		}*/
+		}
 		if (!user.getIsActive().equalsIgnoreCase("Y")) {
 			throw new DisabledException("User is inactive");
 		}

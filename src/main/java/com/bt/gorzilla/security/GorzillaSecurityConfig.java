@@ -3,6 +3,7 @@ package com.bt.gorzilla.security;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.proxy.Dispatcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.bt.gorzilla.dao.impl.UserDaoImpl;
+
+import jakarta.servlet.DispatcherType;
 
 
 @Configuration
@@ -25,10 +28,11 @@ public class GorzillaSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((requests) ->
-		requests.requestMatchers("/api/v1/test","/api/v1/user").permitAll()
-		.requestMatchers(HttpMethod.POST).permitAll()
+		requests
+		.requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
 		.anyRequest().authenticated()
-		).httpBasic(withDefaults()).authenticationManager(new GorzillaAuthenticationManager(userDaoImpl,passwordEncoder()));
+		).httpBasic(withDefaults()).authenticationManager(new GorzillaAuthenticationManager(userDaoImpl,passwordEncoder()))
+		.csrf().disable();
 		return http.build();
 	}
 

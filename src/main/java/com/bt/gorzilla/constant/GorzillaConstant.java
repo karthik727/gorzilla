@@ -12,6 +12,8 @@ public class GorzillaConstant {
 	
 	public static final String USER = "user";
 	
+	public static final String REGISTER = "register";
+	
 	//Char constants
 	
 	public static final char SLASH = '/';
