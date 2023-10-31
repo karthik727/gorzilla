@@ -2,6 +2,8 @@ package com.bt.gorzilla.entity;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
+
 public class Audit {
 
 	private String createdBy;
@@ -10,6 +12,7 @@ public class Audit {
 	private Date lastUpdateDate;
 	private String lastUpdatedLogin;
 
+	@Column(name = "CREATEDBY")
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -18,6 +21,7 @@ public class Audit {
 		this.createdBy = createdBy;
 	}
 
+	@Column(name = "CREATEDDATE")
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -26,6 +30,7 @@ public class Audit {
 		this.createdDate = createdDate;
 	}
 
+	@Column(name = "LASTUPDATEDBY")
 	public String getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
@@ -34,6 +39,7 @@ public class Audit {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
+	@Column(name = "LASTUPDATEDDATE")
 	public Date getLastUpdateDate() {
 		return lastUpdateDate;
 	}
@@ -42,6 +48,7 @@ public class Audit {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
+	@Column(name = "LASTUPDATEDLOGIN")
 	public String getLastUpdatedLogin() {
 		return lastUpdatedLogin;
 	}

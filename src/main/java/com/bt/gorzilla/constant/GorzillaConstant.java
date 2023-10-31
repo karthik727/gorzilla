@@ -21,6 +21,8 @@ public class GorzillaConstant {
 	public static final String ROLE = "role";
 	
 	public static final String USER_ROLE = "userrole";
+	
+	public static final String PRODUCT_OFFERING = "product";
 
 	
 	//Char constants
