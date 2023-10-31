@@ -90,12 +90,18 @@ JOIN USER
   ON USER.USERID = USER_ADDRESS.USERID;
   
   
-select * from user;
+select PASSWORD from user WHERE USERID =1;
+
 select * from USER_INFO;
 select * from USER_ADDRESS;
 #delete from user where userid = 14;
-#delete from USER_ADDRESS where USERADDRESSID = 3;
+#delete from user_info where userinfoid IN(6,8);
+#delete from USER_ADDRESS where USERADDRESSID IN(6,7);
 
-desc user;
+select * from user_role;
+
+desc user_role;
 #update user set password = '$2a$10$l9ncaYlF5q4KzHfvtlzvq.FTq1sCP2./Tw1EpQ0JCa6mYQbZH0.M.' where userid =1;
 commit;
+
+select * from PRODUCTOFFERING;

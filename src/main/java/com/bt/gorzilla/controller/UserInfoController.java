@@ -9,15 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.FailureBean;
 import com.bt.gorzilla.bean.SuccessBean;
 import com.bt.gorzilla.bean.UserInfoRegisterBean;
 import com.bt.gorzilla.constant.GorzillaConstant;
 import com.bt.gorzilla.constant.GorzillaErrorConstant;
 import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserInfoResponse;
 import com.bt.gorzilla.service.UserInfoService;
 
@@ -26,16 +27,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(GorzillaConstant.SLASH + GorzillaConstant.REQUEST_API + GorzillaConstant.SLASH
 		+ GorzillaConstant.REQUEST_VERSION)
-@Tag(name="3. User Info Details")
+@Tag(name = "3. User Info Details")
 public class UserInfoController {
-	
+
 	@Autowired
 	UserInfoService userInfoService;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoController.class);
 
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO, method = RequestMethod.GET)
-	public ResponseEntity<UserInfoResponse> getUsersInfo(Integer page, Integer size) {
+	public ResponseEntity<UserInfoResponse> getUsersInfo(@RequestParam(required = true, defaultValue = "0") Integer page,
+			@RequestParam(required = true, defaultValue = "10") Integer size) {
 		LOGGER.info("Inside getUsersInfo");
 		UserInfoResponse userInfoResponse = userInfoService.getAllUsersInfo(page, size);
 		return ResponseEntity.ok().body(userInfoResponse);
@@ -48,7 +50,7 @@ public class UserInfoController {
 		UserInfo userInfo = userInfoService.getOneUserInfo(userName);
 		return ResponseEntity.ok().body(userInfo);
 	}
-	
+
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO, method = RequestMethod.POST)
 	public ResponseEntity<Object> createUserInfo(@RequestBody UserInfoRegisterBean userInfoRegisterBean) {
 		LOGGER.info("Inside createUserInfo");
@@ -72,6 +74,5 @@ public class UserInfoController {
 			return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(fe);
 		}
 	}
-
 
 }

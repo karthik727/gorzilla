@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.FailureBean;
 import com.bt.gorzilla.bean.SuccessBean;
 import com.bt.gorzilla.bean.UserInputBean;
 import com.bt.gorzilla.constant.GorzillaConstant;
 import com.bt.gorzilla.constant.GorzillaErrorConstant;
 import com.bt.gorzilla.entity.User;
+import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserResponse;
 import com.bt.gorzilla.service.UserService;
 
@@ -40,7 +41,8 @@ public class UserController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER, method = RequestMethod.GET)
-	public ResponseEntity<UserResponse> getUsers(Integer page, Integer size) {
+	public ResponseEntity<UserResponse> getUsers(@RequestParam(required = true, defaultValue = "0") Integer page,
+			@RequestParam(required = true, defaultValue = "10") Integer size) {
 		LOGGER.info("Inside getUsers");
 		UserResponse userResponse = userService.getAllUsers(page, size);
 		return ResponseEntity.ok().body(userResponse);

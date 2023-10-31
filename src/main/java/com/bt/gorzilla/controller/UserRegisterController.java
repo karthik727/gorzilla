@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.FailureBean;
 import com.bt.gorzilla.bean.SuccessBean;
 import com.bt.gorzilla.bean.UserRegisterBean;
 import com.bt.gorzilla.constant.GorzillaConstant;
 import com.bt.gorzilla.constant.GorzillaErrorConstant;
+import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.service.UserRegisterService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

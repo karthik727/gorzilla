@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.UserRegisterBean;
 import com.bt.gorzilla.dao.UserRegisterDao;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
 @Service
 public class UserRegisterService {

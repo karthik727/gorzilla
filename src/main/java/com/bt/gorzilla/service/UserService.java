@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInputBean;
 import com.bt.gorzilla.dao.UserDao;
 import com.bt.gorzilla.entity.User;
+import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserResponse;
 import com.bt.gorzilla.util.PaginationUtil;
 

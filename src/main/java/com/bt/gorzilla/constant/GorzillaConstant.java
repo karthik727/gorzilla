@@ -14,7 +14,14 @@ public class GorzillaConstant {
 	
 	public static final String USER_INFO = "userinfo";
 	
+	public static final String USER_ADDRESS = "useraddress";
+	
 	public static final String REGISTER = "register";
+	
+	public static final String ROLE = "role";
+	
+	public static final String USER_ROLE = "userrole";
+
 	
 	//Char constants
 	

@@ -1,4 +1,4 @@
-package com.bt.gorzilla.Exception;
+package com.bt.gorzilla.exception;
 
 public class UserRegistrationException extends Exception {
 

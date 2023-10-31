@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInputBean;
 import com.bt.gorzilla.entity.User;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
 public interface UserDao {
 

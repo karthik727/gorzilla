@@ -14,14 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInfoRegisterBean;
 import com.bt.gorzilla.dao.UserInfoDao;
 import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
-//Spring data jpa has vulnerabilities hence created daoimpl
+//Spring data jpa has vulnerabilities using native daoimpl
+//https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa/3.1.5
 @Repository
 public class UserInfoDaoImpl   implements UserInfoDao{
 	

@@ -17,11 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.UserRegisterBean;
 import com.bt.gorzilla.dao.UserRegisterDao;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
-//Spring data jpa has vulnerabilities hence created daoimpl
+//Spring data jpa has vulnerabilities using native daoimpl
+//https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa/3.1.5
 @Repository
 public class UserRegisterDaoImpl  implements UserRegisterDao{
 	

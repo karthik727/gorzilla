@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,15 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInputBean;
 import com.bt.gorzilla.dao.UserDao;
 import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.entity.UserAddress;
 import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
-//Spring data jpa has vulnerabilities hence created daoimpl
+//Spring data jpa has vulnerabilities using native daoimpl
+//https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa/3.1.5
 @Repository
 public class UserDaoImpl implements UserDao {
 

@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bt.gorzilla.Exception.UserRegistrationException;
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInfoRegisterBean;
 import com.bt.gorzilla.dao.UserDao;
 import com.bt.gorzilla.dao.UserInfoDao;
 import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserInfoResponse;
 import com.bt.gorzilla.util.PaginationUtil;
 
