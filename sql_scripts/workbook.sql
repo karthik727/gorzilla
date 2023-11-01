@@ -105,7 +105,7 @@ desc user_role;
 commit;
 
 select * from PRODUCTOFFERING;
-delete from PRODUCTOFFERING where PRODUCTOFFERINGID IN (4);
+delete from PRODUCTOFFERING where PRODUCTOFFERINGID IN (6);
 
 desc PRODUCTOFFERING;
 

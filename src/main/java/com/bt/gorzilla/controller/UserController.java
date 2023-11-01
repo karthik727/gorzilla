@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserResponse;
 import com.bt.gorzilla.service.UserService;
+import com.bt.gorzilla.util.GorzillaUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -57,10 +59,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER, method = RequestMethod.POST)
-	public ResponseEntity<Object> createUser(@RequestBody UserInputBean userInputBean) {
+	public ResponseEntity<Object> createUser(Authentication authentication,@RequestBody UserInputBean userInputBean) {
 		LOGGER.info("Inside createUser");
 		try {
-			userService.createUser(userInputBean, passwordEncoder);
+			String loggedInUserName = GorzillaUtil.getLoggedInUserName(authentication);
+			LOGGER.info("loggedInUserName:"+loggedInUserName);
+			userService.createUser(userInputBean, passwordEncoder,loggedInUserName);
 			SuccessBean se = new SuccessBean();
 			se.setSuccessMessage("User created successfully");
 			se.setSuccessCode("200");

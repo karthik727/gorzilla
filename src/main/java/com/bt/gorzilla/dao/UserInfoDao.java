@@ -14,6 +14,6 @@ public interface UserInfoDao {
 
 	public UserInfo getSingleUserInfoDetails(String userId);
 
-	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean, User user) throws UserRegistrationException;
+	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean, String loggedInUserName) throws UserRegistrationException;
 
 }

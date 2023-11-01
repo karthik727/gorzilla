@@ -2,14 +2,17 @@ package com.bt.gorzilla.entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PRODUCTSPECIFICATIONREF")
-public class ProductSpecificationRef extends Audit {
+public class ProductSpecificationRef {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productSpecificationRefId;
 	private Integer productOfferingId;
 	private String name;

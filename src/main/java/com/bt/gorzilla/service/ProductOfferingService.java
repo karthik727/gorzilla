@@ -9,8 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bt.gorzilla.dao.impl.ProductOfferingRepository;
+import com.bt.gorzilla.bean.ProductOfferingBean;
+import com.bt.gorzilla.dao.ProductOfferingDao;
 import com.bt.gorzilla.entity.ProductOffering;
+import com.bt.gorzilla.exception.ProductOfferingException;
+import com.bt.gorzilla.repository.ProductOfferingRepository;
 
 @Service
 public class ProductOfferingService {
@@ -20,6 +23,8 @@ public class ProductOfferingService {
 	@Autowired
 	ProductOfferingRepository productOfferingRepository;
 
+	@Autowired
+	ProductOfferingDao productOfferingDao;
 
 	public List<ProductOffering> getAllProducts(Integer page, Integer size) {
 		LOGGER.info("Inside getAllProducts service");
@@ -30,6 +35,12 @@ public class ProductOfferingService {
 			productOfferingList.add(productOfferingIterator.next());
 		}
 		return productOfferingList;
+	}
+
+
+	public void createProduct(ProductOfferingBean productOfferingBean, String loggedInUserName) throws ProductOfferingException {
+		LOGGER.info("Inside createProduct service");
+		productOfferingDao.createProduct(productOfferingBean,loggedInUserName);
 	}
 
 }

@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name="7. Success Controller")
 public class SuccessController {
 
-	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.TEST, method = RequestMethod.GET)
+	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.SUCCESS, method = RequestMethod.GET)
 	public ResponseEntity<SuccessBean> successTest() {
 		SuccessBean se = new SuccessBean();
 		se.setSuccessMessage("Test success, API invoked Successfully");

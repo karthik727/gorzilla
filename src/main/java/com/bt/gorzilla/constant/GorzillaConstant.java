@@ -10,6 +10,8 @@ public class GorzillaConstant {
 	
 	public static final String TEST = "test";
 	
+	public static final String SUCCESS = "success";
+	
 	public static final String USER = "user";
 	
 	public static final String USER_INFO = "userinfo";

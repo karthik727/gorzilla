@@ -20,8 +20,17 @@ public class UserRegisterService {
 
 	
 	public boolean registerUser(UserRegisterBean userRegisterBean, PasswordEncoder passwordEncoder) throws UserRegistrationException {
+		createActiveFlag(userRegisterBean);
 		boolean isUserCreated = userRegisterDao.registerUser(userRegisterBean,passwordEncoder);
 		return isUserCreated;
+	}
+
+
+	private void createActiveFlag(UserRegisterBean userRegisterBean) {
+		LOGGER.info("setting active flag to Y");
+		if (null != userRegisterBean && userRegisterBean.getIsActive() == null) {
+			userRegisterBean.setIsActive("Y");
+		}
 	}
 
 	

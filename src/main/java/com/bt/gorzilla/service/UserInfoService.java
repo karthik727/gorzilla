@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bt.gorzilla.bean.PaginationBean;
 import com.bt.gorzilla.bean.UserInfoRegisterBean;
-import com.bt.gorzilla.dao.UserDao;
 import com.bt.gorzilla.dao.UserInfoDao;
-import com.bt.gorzilla.entity.User;
 import com.bt.gorzilla.entity.UserInfo;
 import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserInfoResponse;
@@ -25,11 +23,8 @@ public class UserInfoService {
 	@Autowired
 	UserInfoDao userInfoDao;
 	
-	@Autowired
-	UserDao userDao;
-
 	public UserInfoResponse getAllUsersInfo(Integer page, Integer size) {
-		LOGGER.info("Inside getAllUsersInfo");
+		LOGGER.info("Inside getAllUsersInfo Service");
 		PaginationBean paginationBean = PaginationUtil.calculatePagination(page,size);
 		UserInfoResponse userInfoResponse = new UserInfoResponse();
 		List<UserInfo> userInfoList = userInfoDao.getUserInfoDetails(paginationBean);
@@ -39,17 +34,14 @@ public class UserInfoService {
 	}
 	
 	public UserInfo getOneUserInfo(String userId) {
-		LOGGER.info("Inside getOneUserInfo");
+		LOGGER.info("Inside getOneUserInfo Service");
 		UserInfo UserInfo = userInfoDao.getSingleUserInfoDetails(userId);
 		return UserInfo;
 	}
 
-	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean) throws UserRegistrationException {
-		User user = userDao.getUserDetailsById(userInfoRegisterBean.getUserId(), null);
-		if(null == user || null == user.getUserName() || user.getUserName().isEmpty()) {
-			throw new UserRegistrationException("User id is not found");
-		}
-		userInfoDao.createUserInfo(userInfoRegisterBean,user);
+	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean, String loggedInUserName) throws UserRegistrationException {
+		LOGGER.info("Inside createUserInfo Service");
+		userInfoDao.createUserInfo(userInfoRegisterBean,loggedInUserName);
 	}
 
 

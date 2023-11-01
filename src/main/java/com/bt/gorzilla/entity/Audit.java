@@ -1,15 +1,17 @@
 package com.bt.gorzilla.entity;
 
+
 import java.util.Date;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public class Audit {
 
 	private String createdBy;
 	private Date createdDate;
 	private String lastUpdatedBy;
-	private Date lastUpdateDate;
+	private Date lastUpdatedDate;
 	private String lastUpdatedLogin;
 
 	@Column(name = "CREATEDBY")
@@ -41,11 +43,11 @@ public class Audit {
 
 	@Column(name = "LASTUPDATEDDATE")
 	public Date getLastUpdateDate() {
-		return lastUpdateDate;
+		return lastUpdatedDate;
 	}
 
 	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
+		this.lastUpdatedDate = lastUpdateDate;
 	}
 
 	@Column(name = "LASTUPDATEDLOGIN")

@@ -119,7 +119,7 @@ public class UserInfoDaoImpl   implements UserInfoDao{
 	}
 
 	@Override
-	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean, User user) throws UserRegistrationException {
+	public void createUserInfo(UserInfoRegisterBean userInfoRegisterBean, String loggedInUserName) throws UserRegistrationException {
 		LOGGER.info("Inside createUserInfo DaoImpl");
 		PreparedStatement userPreparedStatement = null;
 		java.util.Date javaDate = new java.util.Date();
@@ -132,11 +132,11 @@ public class UserInfoDaoImpl   implements UserInfoDao{
 			userPreparedStatement.setString(3, userInfoRegisterBean.getFirstName());
 			userPreparedStatement.setString(4, userInfoRegisterBean.getMiddleName());
 			userPreparedStatement.setString(5, userInfoRegisterBean.getLastName());
-			userPreparedStatement.setString(6, user.getUserName());
+			userPreparedStatement.setString(6, loggedInUserName);
 			userPreparedStatement.setDate(7, date);
-			userPreparedStatement.setString(8, user.getUserName());
+			userPreparedStatement.setString(8, loggedInUserName);
 			userPreparedStatement.setDate(9, date);
-			userPreparedStatement.setString(10, user.getUserName());
+			userPreparedStatement.setString(10, loggedInUserName);
 			int status = userPreparedStatement.executeUpdate();
 		} catch (Exception e) {
 			LOGGER.error("Error occured while inserting user info data", e.getMessage());

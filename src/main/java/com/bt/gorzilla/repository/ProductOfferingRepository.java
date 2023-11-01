@@ -1,4 +1,4 @@
-package com.bt.gorzilla.dao.impl;
+package com.bt.gorzilla.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

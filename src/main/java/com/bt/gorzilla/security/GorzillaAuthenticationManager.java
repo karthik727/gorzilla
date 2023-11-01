@@ -32,13 +32,12 @@ public class GorzillaAuthenticationManager implements AuthenticationManager {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = String.valueOf(authentication.getPrincipal());
 		String password = String.valueOf(authentication.getCredentials());
-		LOGGER.info("username:"+username);
-		LOGGER.info("password:"+password);
+		LOGGER.debug("username:"+username);
+		LOGGER.debug("password:"+password);
 		User user = userDaoImpl.getSingleUserDetails(username, null);
 		if (user == null) {
 			throw new BadCredentialsException("Authentication not provided");
-		}
-		
+		}		
 		if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Username Password did not match");
 		}

@@ -1,9 +1,12 @@
 package com.bt.gorzilla.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserRegisterBean {
 
 	private String userName;
 	private String password;
+	@JsonIgnore
 	private String isActive;
 	private String emailId;
 	private String firstName;

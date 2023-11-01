@@ -154,7 +154,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder) throws UserRegistrationException {
+	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder, String loggedInUserName) throws UserRegistrationException {
 		LOGGER.info("Inside createUser DaoImpl");
 		PreparedStatement userPreparedStatement = null;
 		java.util.Date javaDate = new java.util.Date();
@@ -165,11 +165,11 @@ public class UserDaoImpl implements UserDao {
 			userPreparedStatement.setString(1, userInputBean.getUserName());
 			userPreparedStatement.setString(2, passwordEncoder.encode(userInputBean.getPassword()));
 			userPreparedStatement.setString(3, userInputBean.getIsActive());
-			userPreparedStatement.setString(4, userInputBean.getUserName());
+			userPreparedStatement.setString(4, loggedInUserName);
 			userPreparedStatement.setDate(5, date);
-			userPreparedStatement.setString(6, userInputBean.getUserName());
+			userPreparedStatement.setString(6, loggedInUserName);
 			userPreparedStatement.setDate(7, date);
-			userPreparedStatement.setString(8, userInputBean.getUserName());
+			userPreparedStatement.setString(8, loggedInUserName);
 			int status = userPreparedStatement.executeUpdate();
 			if (status > 0) {
 				return true;

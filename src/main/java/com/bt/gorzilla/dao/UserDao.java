@@ -17,6 +17,6 @@ public interface UserDao {
 	
 	public User getUserDetailsById(Integer userId,PaginationBean paginationBean);
 
-	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder) throws UserRegistrationException;
+	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder, String loggedInUserName) throws UserRegistrationException;
 
 }

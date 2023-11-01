@@ -41,9 +41,9 @@ public class UserService {
 		return user;
 	}
 
-	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder) throws UserRegistrationException {
+	public boolean createUser(UserInputBean userInputBean, PasswordEncoder passwordEncoder, String loggedInUserName) throws UserRegistrationException {
 		createActiveFlag(userInputBean);
-		boolean isUserCreated = userDao.createUser(userInputBean,passwordEncoder);
+		boolean isUserCreated = userDao.createUser(userInputBean,passwordEncoder,loggedInUserName);
 		return isUserCreated;
 	}
 

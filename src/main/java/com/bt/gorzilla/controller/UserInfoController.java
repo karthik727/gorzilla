@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.bt.gorzilla.entity.UserInfo;
 import com.bt.gorzilla.exception.UserRegistrationException;
 import com.bt.gorzilla.response.UserInfoResponse;
 import com.bt.gorzilla.service.UserInfoService;
+import com.bt.gorzilla.util.GorzillaUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -45,17 +47,19 @@ public class UserInfoController {
 
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO + GorzillaConstant.SLASH
 			+ "{userid}", method = RequestMethod.GET)
-	public ResponseEntity<UserInfo> getOneUserInfo(@PathVariable String userName) {
+	public ResponseEntity<UserInfo> getOneUserInfo(@PathVariable String userid) {
 		LOGGER.info("Inside getOneUserInfo");
-		UserInfo userInfo = userInfoService.getOneUserInfo(userName);
+		UserInfo userInfo = userInfoService.getOneUserInfo(userid);
 		return ResponseEntity.ok().body(userInfo);
 	}
 
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.USER_INFO, method = RequestMethod.POST)
-	public ResponseEntity<Object> createUserInfo(@RequestBody UserInfoRegisterBean userInfoRegisterBean) {
+	public ResponseEntity<Object> createUserInfo(Authentication authentication,@RequestBody UserInfoRegisterBean userInfoRegisterBean) {
 		LOGGER.info("Inside createUserInfo");
 		try {
-			userInfoService.createUserInfo(userInfoRegisterBean);
+			String loggedInUserName = GorzillaUtil.getLoggedInUserName(authentication);
+			LOGGER.info("loggedInUserName:"+loggedInUserName);
+			userInfoService.createUserInfo(userInfoRegisterBean,loggedInUserName);
 			SuccessBean se = new SuccessBean();
 			se.setSuccessMessage("UserInfo created successfully");
 			se.setSuccessCode("200");
