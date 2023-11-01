@@ -19,14 +19,14 @@ public class GorzillaUtil {
 		return loggedInUserName;
 	}
 
-	private static boolean isStringEmpty(String inputString) {
+	public static boolean isStringEmpty(String inputString) {
 		if (null == inputString || inputString.isEmpty()) {
 			return true;
 		}
 		return false;
 	}
 	
-	private static boolean isObjectEmpty(Object object) {
+	public static boolean isObjectEmpty(Object object) {
 		if (null == object) {
 			return true;
 		}

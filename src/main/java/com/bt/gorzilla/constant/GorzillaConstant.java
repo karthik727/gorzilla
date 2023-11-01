@@ -25,8 +25,14 @@ public class GorzillaConstant {
 	public static final String USER_ROLE = "userrole";
 	
 	public static final String PRODUCT_OFFERING = "product";
+	
+	public static final String PRODUCT_STREAM = "stream";
+	
+	public static final String PRODUCT_MAP = "map";
 
 	
+	public static final String Y = "Y";
+
 	//Char constants
 	
 	public static final char SLASH = '/';

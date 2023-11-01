@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(GorzillaConstant.SLASH + GorzillaConstant.REQUEST_API + GorzillaConstant.SLASH
 		+ GorzillaConstant.REQUEST_VERSION)
-@Tag(name = "7. Product Catalog")
+@Tag(name = "8. Product Catalog")
 public class ProductOfferingController {
 	
 	@Autowired
@@ -38,12 +38,11 @@ public class ProductOfferingController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductOfferingController.class);
 
 	@RequestMapping(value = GorzillaConstant.SLASH + GorzillaConstant.PRODUCT_OFFERING, method = RequestMethod.GET)
-	public ResponseEntity<List<ProductOffering>> getAllProducts(Authentication authentication,@RequestParam(required = true, defaultValue = "0") Integer page,
-			@RequestParam(required = true, defaultValue = "10") Integer size) {
+	public ResponseEntity<List<ProductOffering>> getAllProducts(Authentication authentication) {
 		LOGGER.info("Inside getAllProducts");
 		String loggedInUserName = GorzillaUtil.getLoggedInUserName(authentication);
 		LOGGER.info("loggedInUserName:"+loggedInUserName);
-		List<ProductOffering> productOfferingList = productOfferingService.getAllProducts(page, size);
+		List<ProductOffering> productOfferingList = productOfferingService.getAllProducts();
 		return ResponseEntity.ok().body(productOfferingList);
 	}
 	

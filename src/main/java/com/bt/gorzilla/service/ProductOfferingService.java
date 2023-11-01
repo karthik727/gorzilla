@@ -26,7 +26,7 @@ public class ProductOfferingService {
 	@Autowired
 	ProductOfferingDao productOfferingDao;
 
-	public List<ProductOffering> getAllProducts(Integer page, Integer size) {
+	public List<ProductOffering> getAllProducts() {
 		LOGGER.info("Inside getAllProducts service");
 		List<ProductOffering> productOfferingList = new LinkedList<ProductOffering>();
 		Iterable<ProductOffering> productOffering = productOfferingRepository.findAll();
