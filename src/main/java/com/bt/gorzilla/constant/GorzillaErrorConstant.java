@@ -11,6 +11,7 @@ public class GorzillaErrorConstant {
 	public static final String GE_0004 = "GE_0004-Error occured while inserting user info";
 	
 	public static final String GE_0005 = "GE_0005-Error occured while inserting product data";
-
+	
+	public static final String GE_0006 = "GE_0006-Error occured while getting product data using thread";
 
 }

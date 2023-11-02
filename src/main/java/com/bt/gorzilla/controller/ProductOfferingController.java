@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(GorzillaConstant.SLASH + GorzillaConstant.REQUEST_API + GorzillaConstant.SLASH
 		+ GorzillaConstant.REQUEST_VERSION)
-@Tag(name = "8. Product Catalog")
+@Tag(name = "8. Product Catalog TMF620")
 public class ProductOfferingController {
 	
 	@Autowired
@@ -61,7 +61,7 @@ public class ProductOfferingController {
 			LOGGER.error("Error:"+e.getMessage());
 			FailureBean fe = new FailureBean();
 			fe.setErrorCode("400");
-			fe.setErrorMessage(GorzillaErrorConstant.GE_0005);
+			fe.setErrorMessage(GorzillaErrorConstant.GE_0006);
 			return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(fe);
 		} catch (Exception e) {
 			LOGGER.error("Error:" + e.getMessage());

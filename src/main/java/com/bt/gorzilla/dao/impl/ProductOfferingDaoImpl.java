@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -18,7 +19,13 @@ import com.bt.gorzilla.bean.ProductOfferingBean;
 import com.bt.gorzilla.bean.ProductOfferingPriceBean;
 import com.bt.gorzilla.bean.ProductSpecificationRefBean;
 import com.bt.gorzilla.dao.ProductOfferingDao;
+import com.bt.gorzilla.entity.ProductOffering;
+import com.bt.gorzilla.entity.User;
+import com.bt.gorzilla.entity.UserAddress;
+import com.bt.gorzilla.entity.UserInfo;
+import com.bt.gorzilla.entity.UserRole;
 import com.bt.gorzilla.exception.ProductOfferingException;
+import com.bt.gorzilla.exception.UserRegistrationException;
 
 @Repository
 public class ProductOfferingDaoImpl implements ProductOfferingDao{
@@ -224,6 +231,81 @@ public class ProductOfferingDaoImpl implements ProductOfferingDao{
 		}
 	}
 
+	@Override
+	public Integer getTotalProductCatalogCount() throws ProductOfferingException {
+		LOGGER.info("Iside getTotalProductCatalogCount DaoImpl");
+		PreparedStatement productCountPreparedStatement = null;
+		Integer totalProductCatalogCount = null;
+		try (Connection connection = dataSource.getConnection()) {
+			productCountPreparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM PRODUCTOFFERING");
+			ResultSet rs = productCountPreparedStatement.executeQuery();
+			if (rs == null) {
+				throw new ProductOfferingException("Error while fetching product count");
+			}
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
 
+		} catch (SQLException e) {
+			LOGGER.error("Error occured while fetching product count data", e.getMessage());
+		} finally {
+			try {
+				if (null != productCountPreparedStatement && !productCountPreparedStatement.isClosed()) {
+					productCountPreparedStatement.close();
+				}
+			} catch (SQLException e) {
+				LOGGER.error("Error occured while fetching product count data closing prepared statement", e.getMessage());
+			}
+		}
+		return totalProductCatalogCount;
+	}
 
+	@Override
+	public List<ProductOffering> getProductCatalogData(Integer startPosition, Integer endPosition) {
+		LOGGER.info("Iside getProductCatalogData DaoImpl");
+		PreparedStatement productPreparedStatement = null;
+		ProductOffering productOffering;
+		List<ProductOffering> productOfferingList = new LinkedList<ProductOffering>();
+		try (Connection connection = dataSource.getConnection()) {
+			if (null != startPosition && null!= endPosition) {
+				productPreparedStatement = connection.prepareStatement(
+						"SELECT PRODUCTOFFERINGID, NAME, HREF, DESCRIPTION, ISBUNDLE, LASTUPDATE, LIFECYCLESTATUS, VALIDFOR, VERSION, TYPE, BASETYPE, SCHEMALOCATION, ISSELLABLE FROM PRODUCTOFFERING LIMIT ? OFFSET ?");
+				productPreparedStatement.setInt(1,endPosition );
+				productPreparedStatement.setInt(2,startPosition);
+			} else {
+				productPreparedStatement = connection.prepareStatement(
+						"SELECT PRODUCTOFFERINGID, NAME, HREF, DESCRIPTION, ISBUNDLE, LASTUPDATE, LIFECYCLESTATUS, VALIDFOR, VERSION, TYPE, BASETYPE, SCHEMALOCATION, ISSELLABLE FROM PRODUCTOFFERING");
+			}
+			ResultSet rs = productPreparedStatement.executeQuery();
+			while (rs.next()) {
+				productOffering = new ProductOffering();
+				productOffering.setProductOfferingId(rs.getInt(1));
+				productOffering.setName(rs.getString(2));
+				productOffering.setHref(rs.getString(3));
+				productOffering.setDescription(rs.getString(4));
+				productOffering.setIsBundle(rs.getString(5));
+				productOffering.setLastUpdate(rs.getDate(6));
+				productOffering.setLifeCycleStatus(rs.getString(7));
+				productOffering.setValidFor(rs.getString(8));
+				productOffering.setVersion(rs.getString(9));
+				productOffering.setType(rs.getString(10));
+				productOffering.setBaseType(rs.getString(11));
+				productOffering.setSchemaLocation(rs.getString(12));
+				productOffering.setIsSellable(rs.getString(13));
+				productOfferingList.add(productOffering);
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error("Error occured while fetching ProductCatalogData", e.getMessage());
+		} finally {
+			try {
+				if (null != productPreparedStatement && !productPreparedStatement.isClosed()) {
+					productPreparedStatement.close();
+				}
+			} catch (SQLException e) {
+				LOGGER.error("Error occured while fetching ProductCatalogData closing prepared statement", e.getMessage());
+			}
+		}
+		return productOfferingList;
+	}
 }
